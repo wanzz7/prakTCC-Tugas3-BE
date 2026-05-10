@@ -46,4 +46,8 @@ sequelize.sync({ force: false }).then(() => {
   });
 }).catch((err) => {
   console.error("❌ Gagal sinkronisasi database:", err.message);
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 35250af (fix: cors)
