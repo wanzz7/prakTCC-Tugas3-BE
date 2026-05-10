@@ -16,8 +16,6 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 3. Serve frontend static files
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 // 4. Route dasar untuk testing
 app.get("/", (req, res) => {
@@ -30,10 +28,6 @@ require("./schema/Catatan");
 // 6. Setting Routes
 app.use("/api/catatan", catatanRoutes);
 
-// 7. Serve frontend untuk route lainnya
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
-});
 
 // 8. Sync Database dan Jalankan Server
 const port = process.env.PORT || 3000;
