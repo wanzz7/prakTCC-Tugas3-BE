@@ -1,47 +1,49 @@
-// Import Package dan File
 const express = require("express");
+const cors = require("cors");
 const sequelize = require("./config/database");
 const catatanRoutes = require("./routes/catatanRoutes");
 const path = require("path");
 
-// Inisialisasi Express dan Cors
 const app = express();
-const cors = require("cors");
 
-// Izinkan origin frontend lokal yang umum dipakai saat development
+// 1. Middleware CORS
 app.use(cors({
-  origin: ['http://localhost', 'http://localhost:5173', 'http://127.0.0.1:5500'],
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
 }));
 
-// Middleware untuk parsing JSON
+// 2. Middleware JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve frontend static files
+// 3. Serve frontend static files
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
-// Route dasar untuk testing
+// 4. Route dasar untuk testing
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// Setting Routes
-require("./schema/Catatan"); // Untuk generate Tabel catatan
-app.use("/api/catatan", catatanRoutes); // Untuk setting routes catatan
+// 5. Load schema/model agar tabel otomatis terbuat
+require("./schema/Catatan");
 
-// Serve frontend untuk route lainnya
+// 6. Setting Routes
+app.use("/api/catatan", catatanRoutes);
+
+// 7. Serve frontend untuk route lainnya
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
-// Sync Database dan Jalankan Server
+// 8. Sync Database dan Jalankan Server
 const port = process.env.PORT || 3000;
-sequelize.sync().then(() => {
+
+sequelize.sync({ force: false }).then(() => {
   console.log("✅ Database synced");
-  app.listen(port, () => {
+  app.listen(port, '0.0.0.0', () => {
     console.log(`🚀 Server berjalan di http://localhost:${port}`);
     console.log(`📝 API tersedia di http://localhost:${port}/api/catatan`);
   });
+}).catch((err) => {
+  console.error("❌ Gagal sinkronisasi database:", err.message);
 });
