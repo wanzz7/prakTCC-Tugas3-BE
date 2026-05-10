@@ -7,17 +7,19 @@ const path = require("path");
 const app = express();
 
 // 1. Middleware CORS
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  }),
+);
 
 // 2. Middleware JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // 3. Serve frontend static files
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
+app.use(express.static(path.join(__dirname, "..", "frontend")));
 
 // 4. Route dasar untuk testing
 app.get("/", (req, res) => {
@@ -31,23 +33,22 @@ require("./schema/Catatan");
 app.use("/api/catatan", catatanRoutes);
 
 // 7. Serve frontend untuk route lainnya
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "index.html"));
 });
 
 // 8. Sync Database dan Jalankan Server
 const port = process.env.PORT || 3000;
 
-sequelize.sync({ force: false }).then(() => {
-  console.log("✅ Database synced");
-  app.listen(port, '0.0.0.0', () => {
-    console.log(`🚀 Server berjalan di http://localhost:${port}`);
-    console.log(`📝 API tersedia di http://localhost:${port}/api/catatan`);
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("✅ Database synced");
+    app.listen(port, "0.0.0.0", () => {
+      console.log(`🚀 Server berjalan di http://localhost:${port}`);
+      console.log(`📝 API tersedia di http://localhost:${port}/api/catatan`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Gagal sinkronisasi database:", err.message);
   });
-}).catch((err) => {
-  console.error("❌ Gagal sinkronisasi database:", err.message);
-<<<<<<< HEAD
-});
-=======
-});
->>>>>>> 35250af (fix: cors)
