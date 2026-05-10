@@ -30,9 +30,9 @@ steps:
       [
         "run",
         "deploy",
-        "notes-app-be",
+        "notes-be",
         "--image",
-        "gcr.io/$PROJECT_ID/notes-app-be",
+        "gcr.io/$PROJECT_ID/notes-be",
         "--timeout",
         "1000s",
         "--port",
