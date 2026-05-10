@@ -1,0 +1,37 @@
+  # API Testing
+  GET http://localhost:3000/ HTTP/1.1
+
+  ###
+  # GET : All Notes
+  GET http://localhost:3000/api/catatan HTTP/1.1
+  Content-Type: application/json
+
+  ###
+  # POST : Create Note
+  POST http://localhost:3000/api/catatan HTTP/1.1
+  Content-Type: application/json
+
+  {
+    "judul": "Tugas TCC Praktikum",
+    "isi": "Menyelesaikan backend Express dan MySQL"
+  }
+
+  ###
+  # PUT : Update Note
+  PUT http://localhost:3000/api/catatan/1 HTTP/1.1
+  Content-Type: application/json
+
+  {
+    "judul": "Tugas TCC Praktikum Selesai",
+    "isi": "Backend sudah jalan di port 3000 dan siap migrasi ke VM"
+  }
+
+  ###
+  # DELETE : Delete Note
+  DELETE http://localhost:3000/api/catatan/1 HTTP/1.1
+  Content-Type: application/json
+
+  ###
+  # GET : Note by ID
+  GET http://localhost:3000/api/catatan/1 HTTP/1.1
+  Content-Type: application/json
